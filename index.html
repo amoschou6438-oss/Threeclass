@@ -614,7 +614,7 @@ const CLASSES = {
 // 狀態管理
 // ══════════════════════════════════════════
 const LS_KEY = 'sanban_roster_state_v1';
-let state = { nav: 'home', classKey: null, areaCode: null, editMode: false, bentoListOpen: false };
+let state = { nav: 'mainmenu', classKey: null, areaCode: null, editMode: false, bentoListOpen: false };
 let data = loadData();
 
 function loadData() {
@@ -773,6 +773,10 @@ function showToastMsg(msg) {
 // ══════════════════════════════════════════
 // 導覽
 // ══════════════════════════════════════════
+function goMainMenu() {
+  state = { nav: 'mainmenu', classKey: null, areaCode: null, editMode: false, bentoListOpen: false };
+  render();
+}
 function goHome() {
   state = { nav: 'home', classKey: null, areaCode: null, editMode: false, bentoListOpen: false };
   render();
@@ -788,6 +792,62 @@ function goRoster(classKey, areaCode) {
 function goBack() {
   if (state.nav === 'roster') goClass(state.classKey);
   else if (state.nav === 'class') goHome();
+  else if (state.nav === 'home') goMainMenu();
+}
+
+// ══════════════════════════════════════════
+// 名單資料 匯出／匯入
+// ══════════════════════════════════════════
+function exportRosterData() {
+  try {
+    const payload = {
+      type: 'sanban_roster_export',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      data: data
+    };
+    const json = JSON.stringify(payload, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = todayStr();
+    a.href = url;
+    a.download = `三班人員名單_${stamp}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showToastMsg('已匯出名單資料');
+  } catch (e) {
+    showToastMsg('匯出失敗');
+  }
+}
+
+function triggerImportRoster() {
+  const input = document.getElementById('import-roster-input');
+  if (input) input.click();
+}
+
+function handleImportRosterFile(evt) {
+  const file = evt.target.files && evt.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      const incoming = (parsed && parsed.type === 'sanban_roster_export' && parsed.data) ? parsed.data : parsed;
+      if (!incoming || typeof incoming !== 'object') throw new Error('格式錯誤');
+      data = incoming;
+      saveData();
+      showToastMsg('名單資料匯入成功');
+      render();
+    } catch (err) {
+      showToastMsg('匯入失敗：檔案格式不正確');
+    } finally {
+      evt.target.value = '';
+    }
+  };
+  reader.readAsText(file, 'utf-8');
 }
 
 // ══════════════════════════════════════════
@@ -799,8 +859,14 @@ function render() {
   const title = document.getElementById('header-title');
   const sub = document.getElementById('header-sub');
 
-  if (state.nav === 'home') {
+  if (state.nav === 'mainmenu') {
     document.querySelector('.header').style.display = 'none';
+    main.innerHTML = renderMainMenu();
+  } else if (state.nav === 'home') {
+    document.querySelector('.header').style.display = 'flex';
+    backBtn.style.display = 'flex';
+    title.textContent = '報名系統';
+    sub.textContent = '請選擇要報名的班別';
     main.innerHTML = renderHome();
   } else if (state.nav === 'class') {
     document.querySelector('.header').style.display = 'flex';
@@ -820,11 +886,43 @@ function render() {
   }
 }
 
-function renderHome() {
+function renderMainMenu() {
   let html = `<div class="home-hero">
     <h1>中區報名系統</h1>
-    <p>請選擇要報名的班別</p>
-  </div><div class="class-grid">`;
+    <p>請選擇功能</p>
+  </div><div class="class-grid">
+    <div class="class-card" onclick="goHome()">
+      <div class="class-icon" style="font-size:1.9rem;">📝</div>
+      <div>
+        <div class="class-name">進入報名系統</div>
+        <div class="class-desc">前往三班報名作業</div>
+      </div>
+      <div class="class-arrow">›</div>
+    </div>
+    <div class="class-card" onclick="exportRosterData()">
+      <div class="class-icon" style="font-size:1.9rem;">📤</div>
+      <div>
+        <div class="class-name">各班人員名單匯出</div>
+        <div class="class-desc">將目前名單資料匯出為檔案</div>
+      </div>
+      <div class="class-arrow">›</div>
+    </div>
+    <div class="class-card" onclick="triggerImportRoster()">
+      <div class="class-icon" style="font-size:1.9rem;">📥</div>
+      <div>
+        <div class="class-name">各班人員名單匯入</div>
+        <div class="class-desc">從檔案匯入名單資料</div>
+      </div>
+      <div class="class-arrow">›</div>
+    </div>
+  </div>
+  <div class="home-logo"><img src="data:image/png;base64,${LOGO_IMG}" alt="中區報名系統"></div>
+  <input type="file" id="import-roster-input" accept=".json,application/json" style="display:none" onchange="handleImportRosterFile(event)">`;
+  return html;
+}
+
+function renderHome() {
+  let html = `<div class="class-grid">`;
   for (const key of ['child','youth','elder']) {
     const c = CLASSES[key];
     html += `<div class="class-card ${c.cardClass}" onclick="goClass('${key}')">
