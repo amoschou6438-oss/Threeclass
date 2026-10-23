@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-<!--EMB-BACKUP-START--><script>(function(){try{var E={"id":"sb","t":"2026-10-17T15:49:11.237Z","set":{"sanban_roster_state_v1":"{}"},"merge":{}};var mk="emb_applied_"+E.id;if(localStorage.getItem(mk)===E.t)return;var k,d,o,s;for(k in E.set)localStorage.setItem(k,E.set[k]);for(k in E.merge){o={};try{o=JSON.parse(localStorage.getItem(k))||{}}catch(e){}s=E.merge[k];for(d in s)o[d]=s[d];localStorage.setItem(k,JSON.stringify(o))}localStorage.setItem(mk,E.t)}catch(e){}})();</script><!--EMB-BACKUP-END-->
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#ececec">
@@ -232,25 +231,12 @@ const CLASSES = {
       {code:'2-3', area:'斗六'},
     ],
     members: [
-      {role:"小學輔",gender:"乾道",area:"台中",code:"1-1",name:"子暘"},
-      {role:"小學輔",gender:"乾道",area:"台中",code:"1-1",name:"立祐"},
-      {role:"小學輔",gender:"坤道",area:"台中",code:"1-1",name:"若彤"},
-      {role:"小學輔",gender:"坤道",area:"台中",code:"1-1",name:"詠晴"},
-      {role:"家長",gender:"乾道",area:"台中",code:"1-1",name:"由健"},
-      {role:"家長",gender:"坤道",area:"台中",code:"1-1",name:"雅苓"},
       {role:"資輔",gender:"乾道",area:"台中",code:"1-1",name:"大元"},
       {role:"資輔",gender:"乾道",area:"台中",code:"1-1",name:"佳俊"},
       {role:"資輔",gender:"坤道",area:"台中",code:"1-1",name:"春華"},
       {role:"資輔",gender:"坤道",area:"台中",code:"1-1",name:"玫芳"},
       {role:"資輔",gender:"坤道",area:"台中",code:"1-1",name:"靜兒"},
-      {role:"資輔",gender:"坤道",area:"台中",code:"1-1",name:"嫻雅"},
-      {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"侑恩"},
-      {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"邑軒"},
-      {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"晨睿"},
-      {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"宥亨"},
-      {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"庭褘"},
-      {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"珈毓"},
-      {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"雅歆"},
+      {role:"資輔",gender:"坤道",area:"台中",code:"1-1",name:"嫺雅"},
       {role:"學輔",gender:"乾道",area:"台中",code:"1-1",name:"安德"},
       {role:"學輔",gender:"乾道",area:"台中",code:"1-1",name:"智憲"},
       {role:"學輔",gender:"乾道",area:"台中",code:"1-1",name:"皓程"},
@@ -258,11 +244,19 @@ const CLASSES = {
       {role:"學輔",gender:"坤道",area:"台中",code:"1-1",name:"佩君"},
       {role:"學輔",gender:"坤道",area:"台中",code:"1-1",name:"宛君"},
       {role:"學輔",gender:"坤道",area:"台中",code:"1-1",name:"沛希"},
-      {role:"小學輔",gender:"乾道",area:"太平",code:"1-3",name:"亞奕"},
-      {role:"家長",gender:"乾道",area:"太平",code:"1-3",name:"宏銘"},
-      {role:"家長",gender:"坤道",area:"太平",code:"1-3",name:"美琪"},
-      {role:"家長",gender:"坤道",area:"太平",code:"1-3",name:"佳樺"},
-      {role:"家長",gender:"坤道",area:"太平",code:"1-3",name:"珮容"},
+      {role:"小學輔",gender:"乾道",area:"台中",code:"1-1",name:"子暘"},
+      {role:"小學輔",gender:"乾道",area:"台中",code:"1-1",name:"立祐"},
+      {role:"小學輔",gender:"坤道",area:"台中",code:"1-1",name:"若彤"},
+      {role:"小學輔",gender:"坤道",area:"台中",code:"1-1",name:"詠晴"},
+      {role:"家長",gender:"乾道",area:"台中",code:"1-1",name:"由健"},
+      {role:"家長",gender:"坤道",area:"台中",code:"1-1",name:"雅苓"},
+      {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"侑恩"},
+      {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"邑軒"},
+      {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"晨睿"},
+      {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"宥亨"},
+      {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"庭褘"},
+      {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"珈毓"},
+      {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"雅歆"},
       {role:"資輔",gender:"乾道",area:"太平",code:"1-3",name:"正海"},
       {role:"資輔",gender:"乾道",area:"太平",code:"1-3",name:"銀國"},
       {role:"資輔",gender:"乾道",area:"太平",code:"1-3",name:"鄭強"},
@@ -273,25 +267,23 @@ const CLASSES = {
       {role:"資輔",gender:"坤道",area:"太平",code:"1-3",name:"月嬌"},
       {role:"資輔",gender:"坤道",area:"太平",code:"1-3",name:"益美"},
       {role:"資輔",gender:"坤道",area:"太平",code:"1-3",name:"惠雯"},
-      {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"敬元"},
-      {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"馳恩"},
-      {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"品丞"},
-      {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"菱恩"},
-      {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"妤芯"},
-      {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"妤恩"},
-      {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"歆云"},
       {role:"學輔",gender:"乾道",area:"太平",code:"1-3",name:"凱鈦"},
       {role:"學輔",gender:"坤道",area:"太平",code:"1-3",name:"婕妤"},
       {role:"學輔",gender:"坤道",area:"太平",code:"1-3",name:"文君"},
       {role:"學輔",gender:"坤道",area:"太平",code:"1-3",name:"妤嫻"},
       {role:"學輔",gender:"坤道",area:"太平",code:"1-3",name:"亞宸"},
-      {role:"小學輔",gender:"乾道",area:"坪林",code:"1-4",name:"柏謙"},
-      {role:"小學輔",gender:"乾道",area:"坪林",code:"1-4",name:"立勤"},
-      {role:"小學輔",gender:"坤道",area:"坪林",code:"1-4",name:"芊衣"},
-      {role:"小學輔",gender:"坤道",area:"坪林",code:"1-4",name:"晏瑄"},
-      {role:"家長",gender:"乾道",area:"坪林",code:"1-4",name:"淵陽"},
-      {role:"家長",gender:"坤道",area:"坪林",code:"1-4",name:"宜穎"},
-      {role:"家長",gender:"坤道",area:"坪林",code:"1-4",name:"美星"},
+      {role:"小學輔",gender:"乾道",area:"太平",code:"1-3",name:"亞奕"},
+      {role:"小學輔",gender:"坤道",area:"太平",code:"1-3",name:"菱恩"},
+      {role:"小學輔",gender:"坤道",area:"太平",code:"1-3",name:"妤芯"},
+      {role:"小學輔",gender:"坤道",area:"太平",code:"1-3",name:"妤恩"},
+      {role:"家長",gender:"乾道",area:"太平",code:"1-3",name:"宏銘"},
+      {role:"家長",gender:"坤道",area:"太平",code:"1-3",name:"美琪"},
+      {role:"家長",gender:"坤道",area:"太平",code:"1-3",name:"佳樺"},
+      {role:"家長",gender:"坤道",area:"太平",code:"1-3",name:"珮容"},
+      {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"敬元"},
+      {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"馳恩"},
+      {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"品丞"},
+      {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"歆云"},
       {role:"資輔",gender:"乾道",area:"坪林",code:"1-4",name:"坤財"},
       {role:"資輔",gender:"乾道",area:"坪林",code:"1-4",name:"文聰"},
       {role:"資輔",gender:"乾道",area:"坪林",code:"1-4",name:"明輝"},
@@ -300,7 +292,14 @@ const CLASSES = {
       {role:"資輔",gender:"坤道",area:"坪林",code:"1-4",name:"濬綾"},
       {role:"學輔",gender:"乾道",area:"坪林",code:"1-4",name:"晉德"},
       {role:"學輔",gender:"坤道",area:"坪林",code:"1-4",name:"以心"},
-      {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"士博"},
+      {role:"小學輔",gender:"乾道",area:"坪林",code:"1-4",name:"柏謙"},
+      {role:"小學輔",gender:"乾道",area:"坪林",code:"1-4",name:"立勤"},
+      {role:"小學輔",gender:"乾道",area:"坪林",code:"1-4",name:"士博"},
+      {role:"小學輔",gender:"坤道",area:"坪林",code:"1-4",name:"芊衣"},
+      {role:"小學輔",gender:"坤道",area:"坪林",code:"1-4",name:"晏瑄"},
+      {role:"家長",gender:"乾道",area:"坪林",code:"1-4",name:"淵陽"},
+      {role:"家長",gender:"坤道",area:"坪林",code:"1-4",name:"宜穎"},
+      {role:"家長",gender:"坤道",area:"坪林",code:"1-4",name:"美星"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"竣棠"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"祐嘉"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"世欣"},
@@ -343,7 +342,11 @@ const CLASSES = {
       {role:"資輔",gender:"坤道",area:"台中",code:"1-1",name:"靜兒"},
       {role:"資輔",gender:"坤道",area:"台中",code:"1-1",name:"玫芳"},
       {role:"資輔",gender:"坤道",area:"台中",code:"1-1",name:"姿利"},
+      {role:"學輔",gender:"坤道",area:"台中",code:"1-1",name:"佩君"},
+      {role:"學輔",gender:"坤道",area:"台中",code:"1-1",name:"宛君"},
+      {role:"學輔",gender:"坤道",area:"台中",code:"1-1",name:"郁婷"},
       {role:"家長",gender:"坤道",area:"台中",code:"1-1",name:"雅芳"},
+      {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"智憲"},
       {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"皓程"},
       {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"智穎"},
       {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"少庸"},
@@ -351,38 +354,41 @@ const CLASSES = {
       {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"星瑋"},
       {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"立祐"},
       {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"沛希"},
-      {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"乃甄"},
       {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"詠晴"},
       {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"若彤"},
-      {role:"學輔",gender:"乾道",area:"台中",code:"1-1",name:"智憲"},
-      {role:"學輔",gender:"坤道",area:"台中",code:"1-1",name:"佩君"},
-      {role:"學輔",gender:"坤道",area:"台中",code:"1-1",name:"宛君"},
+      {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"乃甄"},
       {role:"資輔",gender:"乾道",area:"彰化",code:"1-2",name:"松欽"},
       {role:"學輔",gender:"坤道",area:"彰化",code:"1-2",name:"琇尹"},
       {role:"資輔",gender:"乾道",area:"太平",code:"1-3",name:"鄭強"},
       {role:"資輔",gender:"乾道",area:"太平",code:"1-3",name:"輔澄"},
       {role:"資輔",gender:"乾道",area:"太平",code:"1-3",name:"吉男"},
-      {role:"家長",gender:"乾道",area:"太平",code:"1-3",name:"宏銘"},
+      {role:"資輔",gender:"乾道",area:"太平",code:"1-3",name:"正海"},
       {role:"資輔",gender:"坤道",area:"太平",code:"1-3",name:"銘季"},
       {role:"資輔",gender:"坤道",area:"太平",code:"1-3",name:"麗雪"},
       {role:"資輔",gender:"坤道",area:"太平",code:"1-3",name:"小清"},
       {role:"資輔",gender:"坤道",area:"太平",code:"1-3",name:"月嬌"},
       {role:"資輔",gender:"坤道",area:"太平",code:"1-3",name:"益美"},
       {role:"資輔",gender:"坤道",area:"太平",code:"1-3",name:"惠雯"},
+      {role:"資輔",gender:"坤道",area:"太平",code:"1-3",name:"麗玲"},
+      {role:"學輔",gender:"乾道",area:"太平",code:"1-3",name:"士華"},
+      {role:"學輔",gender:"乾道",area:"太平",code:"1-3",name:"忠緯"},
+      {role:"學輔",gender:"乾道",area:"太平",code:"1-3",name:"耀輝"},
+      {role:"學輔",gender:"乾道",area:"太平",code:"1-3",name:"義舜"},
+      {role:"學輔",gender:"坤道",area:"太平",code:"1-3",name:"婕妤"},
+      {role:"學輔",gender:"坤道",area:"太平",code:"1-3",name:"琬婷"},
+      {role:"家長",gender:"乾道",area:"太平",code:"1-3",name:"宏銘"},
+      {role:"家長",gender:"坤道",area:"太平",code:"1-3",name:"美琪"},
+      {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"勝利"},
       {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"桓毅"},
       {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"凱鈦"},
+      {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"亞奕"},
       {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"亞宸"},
       {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"玟娜"},
       {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"妤嫻"},
       {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"菱恩"},
       {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"妤恩"},
       {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"妤芯"},
-      {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"亞奕"},
-      {role:"學輔",gender:"乾道",area:"太平",code:"1-3",name:"士華"},
-      {role:"學輔",gender:"乾道",area:"太平",code:"1-3",name:"忠緯"},
-      {role:"學輔",gender:"乾道",area:"太平",code:"1-3",name:"耀輝"},
-      {role:"學輔",gender:"乾道",area:"太平",code:"1-3",name:"勝利"},
-      {role:"學輔",gender:"坤道",area:"太平",code:"1-3",name:"婕妤"},
+      {role:"學員",gender:"坤道",area:"太平",code:"1-3",name:"文君"},
       {role:"資輔",gender:"乾道",area:"坪林",code:"1-4",name:"明輝"},
       {role:"資輔",gender:"乾道",area:"坪林",code:"1-4",name:"昆秦"},
       {role:"資輔",gender:"乾道",area:"坪林",code:"1-4",name:"文聰"},
@@ -394,10 +400,9 @@ const CLASSES = {
       {role:"資輔",gender:"坤道",area:"坪林",code:"1-4",name:"靜瑜"},
       {role:"資輔",gender:"坤道",area:"坪林",code:"1-4",name:"濬綾"},
       {role:"資輔",gender:"坤道",area:"坪林",code:"1-4",name:"秀琴"},
-      {role:"家長",gender:"乾道",area:"坪林",code:"1-4",name:"志文"},
       {role:"學輔",gender:"乾道",area:"坪林",code:"1-4",name:"晉德"},
-      {role:"學輔",gender:"坤道",area:"坪林",code:"1-4",name:"珮安"},
       {role:"學輔",gender:"坤道",area:"坪林",code:"1-4",name:"以心"},
+      {role:"家長",gender:"乾道",area:"坪林",code:"1-4",name:"志文"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"川磊"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"川陞"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"柏謙"},
@@ -405,13 +410,14 @@ const CLASSES = {
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"立勤"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"奕崴"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"竣棠"},
+      {role:"學員",gender:"坤道",area:"坪林",code:"1-4",name:"珮安"},
       {role:"學員",gender:"坤道",area:"坪林",code:"1-4",name:"芊衣"},
       {role:"學員",gender:"坤道",area:"坪林",code:"1-4",name:"晏瑄"},
       {role:"學員",gender:"坤道",area:"坪林",code:"1-4",name:"珮綸"},
-      {role:"學輔",gender:"坤道",area:"嘉義",code:"2-1",name:"雅如"},
-      {role:"學員",gender:"坤道",area:"嘉義",code:"2-1",name:"妙慧"},
       {role:"資輔",gender:"乾道",area:"嘉義",code:"2-1",name:"議法"},
       {role:"資輔",gender:"坤道",area:"嘉義",code:"2-1",name:"美蓉"},
+      {role:"學輔",gender:"坤道",area:"嘉義",code:"2-1",name:"雅如"},
+      {role:"學員",gender:"坤道",area:"嘉義",code:"2-1",name:"妙慧"},
       {role:"資輔",gender:"乾道",area:"斗六",code:"2-3",name:"錫章"},
       {role:"資輔",gender:"乾道",area:"斗六",code:"2-3",name:"弘書"},
       {role:"資輔",gender:"坤道",area:"斗六",code:"2-3",name:"淑貞"},
@@ -441,8 +447,8 @@ const CLASSES = {
       {role:"策劃",gender:"坤道",area:"台中",code:"1-1",name:"嫺雅"},
       {role:"策劃",gender:"坤道",area:"台中",code:"1-1",name:"瓊瑤"},
       {role:"策劃",gender:"坤道",area:"台中",code:"1-1",name:"靜兒"},
-      {role:"陪班",gender:"坤道",area:"台中",code:"1-1",name:"淑花"},
       {role:"陪班",gender:"乾道",area:"台中",code:"1-1",name:"安德"},
+      {role:"陪班",gender:"坤道",area:"台中",code:"1-1",name:"淑花"},
       {role:"陪班",gender:"坤道",area:"台中",code:"1-1",name:"宛君"},
       {role:"陪班",gender:"坤道",area:"台中",code:"1-1",name:"詠晴"},
       {role:"陪班",gender:"坤道",area:"台中",code:"1-1",name:"佩君"},
@@ -452,11 +458,14 @@ const CLASSES = {
       {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"皓程"},
       {role:"學員",gender:"乾道",area:"台中",code:"1-1",name:"少庸"},
       {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"郁婷"},
+      {role:"學員",gender:"坤道",area:"台中",code:"1-1",name:"乃甄"},
       {role:"策劃",gender:"乾道",area:"太平",code:"1-3",name:"吉男"},
       {role:"策劃",gender:"乾道",area:"太平",code:"1-3",name:"鄭強"},
       {role:"策劃",gender:"坤道",area:"太平",code:"1-3",name:"月嬌"},
       {role:"策劃",gender:"坤道",area:"太平",code:"1-3",name:"益美"},
       {role:"陪班",gender:"乾道",area:"太平",code:"1-3",name:"正海"},
+      {role:"陪班",gender:"坤道",area:"太平",code:"1-3",name:"麗玲"},
+      {role:"陪班",gender:"坤道",area:"太平",code:"1-3",name:"妤恩"},
       {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"宏銘"},
       {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"忠緯"},
       {role:"學員",gender:"乾道",area:"太平",code:"1-3",name:"義舜"},
@@ -468,23 +477,23 @@ const CLASSES = {
       {role:"策劃",gender:"乾道",area:"坪林",code:"1-4",name:"昆秦"},
       {role:"策劃",gender:"乾道",area:"坪林",code:"1-4",name:"文聰"},
       {role:"陪班",gender:"乾道",area:"坪林",code:"1-4",name:"明輝"},
+      {role:"陪班",gender:"乾道",area:"坪林",code:"1-4",name:"竣棠"},
       {role:"陪班",gender:"坤道",area:"坪林",code:"1-4",name:"怡珍"},
       {role:"陪班",gender:"坤道",area:"坪林",code:"1-4",name:"濬綾"},
-      {role:"陪班",gender:"乾道",area:"坪林",code:"1-4",name:"竣棠"},
       {role:"陪班",gender:"坤道",area:"坪林",code:"1-4",name:"靜瑜"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"仁成"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"善宇"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"奉穎"},
       {role:"學員",gender:"乾道",area:"坪林",code:"1-4",name:"志文"},
-      {role:"學員",gender:"坤道",area:"坪林",code:"1-4",name:"宜穎"},
       {role:"學員",gender:"坤道",area:"坪林",code:"1-4",name:"湘梅"},
+      {role:"學員",gender:"坤道",area:"坪林",code:"1-4",name:"宜穎"},
+      {role:"策劃",gender:"坤道",area:"斗六",code:"2區",name:"淑貞"},
+      {role:"陪班",gender:"乾道",area:"馬光",code:"2區",name:"千翔"},
+      {role:"陪班",gender:"乾道",area:"嘉義",code:"2區",name:"俊甫"},
+      {role:"陪班",gender:"坤道",area:"嘉義",code:"2區",name:"美蓉"},
       {role:"學員",gender:"坤道",area:"嘉義",code:"2區",name:"雅如"},
       {role:"學員",gender:"坤道",area:"嘉義",code:"2區",name:"妙慧"},
-      {role:"陪班",gender:"乾道",area:"馬光",code:"2區",name:"千翔"},
       {role:"學員",gender:"坤道",area:"馬光",code:"2區",name:"珮安"},
-      {role:"策劃",gender:"坤道",area:"斗六",code:"2區",name:"淑貞"},
-      {role:"陪班",gender:"坤道",area:"嘉義",code:"2區",name:"美蓉"},
-      {role:"陪班",gender:"乾道",area:"嘉義",code:"2區",name:"俊甫"},
     ]
   }
 };
@@ -495,6 +504,29 @@ const CLASSES = {
 const LS_KEY = 'sanban_roster_state_v1';
 let state = { nav: 'mainmenu', classKey: null, areaCode: null, editMode: false, bentoListOpen: false };
 let data = loadData();
+
+// ── 名單（人員）覆寫：由「名單匯入」寫入，優先於程式內建名單 ──
+const ROSTER_KEY = 'sanban_roster_members_v1';
+function applyRosterOverride(roster) {
+  let n = 0;
+  if (!roster || typeof roster !== 'object') return 0;
+  Object.keys(CLASSES).forEach(k => {
+    const list = roster[k];
+    if (!Array.isArray(list) || !list.length) return;
+    const clean = list.filter(m => m && m.name && m.role && m.code)
+      .map(m => ({ role: m.role, gender: m.gender || '', area: m.area || '', code: m.code, name: m.name }));
+    if (!clean.length) return;
+    CLASSES[k].members = clean;
+    clean.forEach(m => {
+      if (!CLASSES[k].areaOrder.some(a => a.code === m.code)) CLASSES[k].areaOrder.push({ code: m.code, area: m.area || m.code });
+    });
+    n += clean.length;
+  });
+  return n;
+}
+(function () {
+  try { applyRosterOverride(JSON.parse(localStorage.getItem(ROSTER_KEY))); } catch (e) {}
+})();
 
 function loadData() {
   try {
@@ -707,6 +739,7 @@ function exportRosterData() {
       version: 1,
       exportedAt: new Date().toISOString(),
       data: data,
+      roster: { child: CLASSES.child.members, youth: CLASSES.youth.members, elder: CLASSES.elder.members },
       localStorageAll: __bkSnapshotLS()   // 此頁面存在瀏覽器的全部資料
     };
     const json = JSON.stringify(payload, null, 2);
@@ -738,12 +771,20 @@ function handleImportRosterFile(evt) {
   reader.onload = function(e) {
     try {
       const parsed = JSON.parse(e.target.result);
-      const incoming = (parsed && parsed.type === 'sanban_roster_export' && parsed.data) ? parsed.data : parsed;
-      if (!incoming || typeof incoming !== 'object') throw new Error('格式錯誤');
-      if (parsed && parsed.localStorageAll) __bkRestoreLS(parsed.localStorageAll, [LS_KEY]);
-      data = incoming;
-      saveData();
-      showToastMsg('名單資料匯入成功');
+      const isExport = parsed && parsed.type === 'sanban_roster_export';
+      const incoming = isExport ? parsed.data : parsed;
+      if (!isExport && (!incoming || typeof incoming !== 'object')) throw new Error('格式錯誤');
+      if (parsed && parsed.localStorageAll) __bkRestoreLS(parsed.localStorageAll, [LS_KEY, ROSTER_KEY]);
+      let rosterCount = 0;
+      if (isExport && parsed.roster) {
+        rosterCount = applyRosterOverride(parsed.roster);
+        if (rosterCount) { try { localStorage.setItem(ROSTER_KEY, JSON.stringify(parsed.roster)); } catch (e2) {} }
+      }
+      if (incoming && typeof incoming === 'object' && (!isExport || Object.keys(incoming).length || !rosterCount)) {
+        data = incoming;
+        saveData();
+      }
+      showToastMsg(rosterCount ? ('名單匯入成功（共 ' + rosterCount + ' 人）') : '名單資料匯入成功');
       render();
     } catch (err) {
       showToastMsg('匯入失敗：檔案格式不正確');
