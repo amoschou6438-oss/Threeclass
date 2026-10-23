@@ -507,6 +507,12 @@ let data = loadData();
 
 // ── 名單（人員）覆寫：由「名單匯入」寫入，優先於程式內建名單 ──
 const ROSTER_KEY = 'sanban_roster_members_v1';
+const BASE_AREA_ORDER = {};
+Object.keys(CLASSES).forEach(k => { BASE_AREA_ORDER[k] = CLASSES[k].areaOrder.map(a => ({ code: a.code, area: a.area })); });
+function codeSortKey(c) {
+  const m = String(c).match(/^(\d+)(?:-(\d+))?/);
+  return m ? (+m[1]) * 1000 + (+(m[2] || 0)) : 999999;
+}
 function applyRosterOverride(roster) {
   let n = 0;
   if (!roster || typeof roster !== 'object') return 0;
@@ -516,10 +522,19 @@ function applyRosterOverride(roster) {
     const clean = list.filter(m => m && m.name && m.role && m.code)
       .map(m => ({ role: m.role, gender: m.gender || '', area: m.area || '', code: m.code, name: m.name, bd: m.bd || '' }));
     if (!clean.length) return;
-    CLASSES[k].members = clean;
+    const cls = CLASSES[k];
+    cls.members = clean;
+    // 區組：依原本順序保留「有人」的區組，再補上名單中新出現的區組
+    const codes = new Set(clean.map(m => m.code));
+    const order = BASE_AREA_ORDER[k].filter(a => codes.has(a.code));
+    const extra = [];
     clean.forEach(m => {
-      if (!CLASSES[k].areaOrder.some(a => a.code === m.code)) CLASSES[k].areaOrder.push({ code: m.code, area: m.area || m.code });
+      if (!order.some(a => a.code === m.code) && !extra.some(a => a.code === m.code)) extra.push({ code: m.code, area: m.area || m.code });
     });
+    extra.sort((x, y) => codeSortKey(x.code) - codeSortKey(y.code));
+    cls.areaOrder = order.concat(extra);
+    // 身份：名單中出現但不在原本排序內的，補在最後，避免人員被隱藏
+    clean.forEach(m => { if (!cls.roleOrder.includes(m.role)) cls.roleOrder.push(m.role); });
     n += clean.length;
   });
   return n;
@@ -764,35 +779,122 @@ function triggerImportRoster() {
   if (input) input.click();
 }
 
-function handleImportRosterFile(evt) {
-  const file = evt.target.files && evt.target.files[0];
-  if (!file) return;
-  const reader = new FileReader();
-  reader.onload = function(e) {
+// ── 三班名單匯入：選取 童蒙／青少／學人 的 .json（可一次多選），自動辨識班別、匯整並更新畫面 ──
+const CLASS_ALIASES = [
+  ['child', ['child', '童蒙']],
+  ['youth', ['youth', '青少']],
+  ['elder', ['elder', '學人', '成人']]
+];
+function detectClassKey(text) {
+  const s = String(text || '').toLowerCase();
+  for (const [k, names] of CLASS_ALIASES) if (names.some(n => s.indexOf(n) >= 0)) return k;
+  return null;
+}
+function pick(o, keys) {
+  for (const k of keys) if (o[k] !== undefined && o[k] !== null && String(o[k]).trim() !== '') return String(o[k]).trim();
+  return '';
+}
+function normalizeMember(m, classKey) {
+  if (!m || typeof m !== 'object') return null;
+  const name = pick(m, ['name', '姓名', '名字']);
+  const role = pick(m, ['role', '身份', '職務']);
+  if (!name || !role) return null;
+  let code = pick(m, ['code', '區碼', '區組代碼']);
+  let area = pick(m, ['area', '區', '區組', '地區']);
+  const order = CLASSES[classKey].areaOrder.concat(BASE_AREA_ORDER[classKey] || []);
+  if (!code && area) { const f = order.find(a => a.area === area.replace(/區$/, '') || a.area === area); if (f) code = f.code; }
+  if (code && !area) { const f = order.find(a => a.code === code); if (f) area = f.area; }
+  if (!code) return null;
+  return { role, gender: pick(m, ['gender', '性別', '乾坤']), area: area || code, code, name, bd: pick(m, ['bd', 'birthday', 'birth', '生日']) };
+}
+// 從一份 JSON 取出 [{key, list}]，支援：成員陣列、{members:[…]}、{child/youth/elder:…}、舊匯出檔的 roster
+function extractRosters(parsed, fileName) {
+  const out = [];
+  const asList = v => Array.isArray(v) ? v : (v && Array.isArray(v.members) ? v.members : null);
+  const byFile = detectClassKey(fileName);
+  if (Array.isArray(parsed)) {
+    if (byFile) out.push({ key: byFile, list: parsed });
+    return out;
+  }
+  if (!parsed || typeof parsed !== 'object') return out;
+  const multi = parsed.roster && typeof parsed.roster === 'object' ? parsed.roster : parsed;
+  let found = false;
+  Object.keys(multi).forEach(k => {
+    const key = detectClassKey(k);
+    const list = key && k !== 'members' ? asList(multi[k]) : null;
+    if (key && list) { out.push({ key, list }); found = true; }
+  });
+  if (found) return out;
+  if (Array.isArray(parsed.members)) {
+    const key = detectClassKey([parsed.classKey, parsed.class, parsed.key, parsed.label, parsed.fullName, parsed.班別, parsed.name].join(' ')) || byFile;
+    if (key) out.push({ key, list: parsed.members });
+  }
+  return out;
+}
+function readFileText(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = e => resolve(e.target.result);
+    r.onerror = () => reject(new Error('讀取失敗'));
+    r.readAsText(file, 'utf-8');
+  });
+}
+async function handleImportRosterFile(evt) {
+  const files = Array.from(evt.target.files || []);
+  if (!files.length) return;
+  const incoming = { child: [], youth: [], elder: [] };
+  const got = new Set();
+  const bad = [];
+  let skipped = 0;
+  for (const f of files) {
     try {
-      const parsed = JSON.parse(e.target.result);
-      const isExport = parsed && parsed.type === 'sanban_roster_export';
-      const incoming = isExport ? parsed.data : parsed;
-      if (!isExport && (!incoming || typeof incoming !== 'object')) throw new Error('格式錯誤');
-      if (parsed && parsed.localStorageAll) __bkRestoreLS(parsed.localStorageAll, [LS_KEY, ROSTER_KEY]);
-      let rosterCount = 0;
-      if (isExport && parsed.roster) {
-        rosterCount = applyRosterOverride(parsed.roster);
-        if (rosterCount) { try { localStorage.setItem(ROSTER_KEY, JSON.stringify(parsed.roster)); } catch (e2) {} }
-      }
-      if (incoming && typeof incoming === 'object' && (!isExport || Object.keys(incoming).length || !rosterCount)) {
-        data = incoming;
-        saveData();
-      }
-      showToastMsg(rosterCount ? ('名單匯入成功（共 ' + rosterCount + ' 人）') : '名單資料匯入成功');
-      render();
-    } catch (err) {
-      showToastMsg('匯入失敗：檔案格式不正確');
-    } finally {
-      evt.target.value = '';
-    }
+      const parsed = JSON.parse((await readFileText(f)).replace(/^\uFEFF/, ''));
+      const parts = extractRosters(parsed, f.name);
+      if (!parts.length) { bad.push(f.name); continue; }
+      parts.forEach(({ key, list }) => {
+        got.add(key);
+        list.forEach(m => {
+          const nm = normalizeMember(m, key);
+          if (nm) incoming[key].push(nm); else skipped++;
+        });
+      });
+    } catch (e) { bad.push(f.name); }
+  }
+  evt.target.value = '';
+  const roster = {};
+  let total = 0;
+  got.forEach(k => {
+    const seen = new Set();
+    roster[k] = incoming[k].filter(m => { const id = m.code + '|' + m.role + '|' + m.name; if (seen.has(id)) { skipped++; return false; } seen.add(id); return true; });
+    total += roster[k].length;
+  });
+  if (!total) {
+    showToastMsg('匯入失敗：找不到可用的名單' + (bad.length ? '（' + bad.join('、') + '）' : ''));
+    return;
+  }
+  // 只更新有匯入的班別；其餘班別維持目前名單，再合併存回
+  const merged = {
+    child: CLASSES.child.members, youth: CLASSES.youth.members, elder: CLASSES.elder.members
   };
-  reader.readAsText(file, 'utf-8');
+  Object.assign(merged, roster);
+  applyRosterOverride(roster);
+  try { localStorage.setItem(ROSTER_KEY, JSON.stringify(merged)); } catch (e) {}
+  // 清除已匯入班別的手動新增／刪除紀錄，避免與新名單衝突（服務人員名單保留）
+  if (data.custom) {
+    got.forEach(k => {
+      Object.keys(data.custom[k] || {}).forEach(code => { data.custom[k][code].added = []; data.custom[k][code].removed = []; });
+    });
+    saveData();
+  }
+  const labels = { child: '童蒙', youth: '青少', elder: '學人' };
+  let msg = '匯入完成：' + ['child', 'youth', 'elder'].filter(k => got.has(k)).map(k => labels[k] + ' ' + roster[k].length).join('、') + '，共 ' + total + ' 人';
+  const miss = ['child', 'youth', 'elder'].filter(k => !got.has(k)).map(k => labels[k]);
+  if (miss.length) msg += '（' + miss.join('、') + ' 維持原名單）';
+  if (bad.length) msg += '；無法辨識：' + bad.join('、');
+  if (skipped) msg += '；略過 ' + skipped + ' 筆';
+  state.nav = 'mainmenu'; state.classKey = null; state.areaCode = null;
+  render();
+  showToastMsg(msg);
 }
 
 // ══════════════════════════════════════════
@@ -846,8 +948,8 @@ function renderMainMenu() {
   + flow([
     {go:'goHome()',ico:'<span class="ico">📝</span>',ic:'go',title:'進入報名系統',desc:'選擇班別與區組，勾選出席人員並產生 LINE 回報。',t1:'GO',t2:'開始'},
     {go:'exportRosterData()',ico:'<span class="ico">📤</span>',ic:'out',title:'名單匯出',desc:'備份各班人員名單與異動資料。',t1:'OUT',t2:'匯出'},
-    {go:'triggerImportRoster()',ico:'<span class="ico">📥</span>',ic:'in',title:'名單匯入',desc:'從備份檔恢復各班人員名單。',t1:'IN',t2:'匯入'}
-  ]).replace('class="flow"','class="flow mm"') + `<input type="file" id="import-roster-input" accept=".json,application/json" hidden onchange="handleImportRosterFile(event)">`;
+    {go:'triggerImportRoster()',ico:'<span class="ico">📥</span>',ic:'in',title:'名單匯入',desc:'選取童蒙、青少、學人的 .json 名單檔（可一次多選），自動匯整並更新三班名單。',t1:'IN',t2:'匯入'}
+  ]).replace('class="flow"','class="flow mm"') + `<input type="file" id="import-roster-input" accept=".json,application/json" multiple hidden onchange="handleImportRosterFile(event)">`;
 }
 
 function fmtNext(key) {
